@@ -1,5 +1,6 @@
 package com.elvislee.onlineshop.service.impl;
 
+import com.elvislee.onlineshop.constant.ProductCategory;
 import com.elvislee.onlineshop.dao.ProductDao;
 import com.elvislee.onlineshop.dto.ProductRequest;
 import com.elvislee.onlineshop.model.Product;
@@ -16,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category, String search) {
+        return productDao.getProducts(category, search);
     }
 
     @Override
