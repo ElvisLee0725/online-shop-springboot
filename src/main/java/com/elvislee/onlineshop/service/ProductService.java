@@ -1,13 +1,13 @@
 package com.elvislee.onlineshop.service;
 
-import com.elvislee.onlineshop.constant.ProductCategory;
+import com.elvislee.onlineshop.dto.ProductQueryParams;
 import com.elvislee.onlineshop.dto.ProductRequest;
 import com.elvislee.onlineshop.model.Product;
 
 import java.util.List;
 
 public interface ProductService {
-    public List<Product> getProducts(ProductCategory category, String search);
+    public List<Product> getProducts(ProductQueryParams productQueryParams);
 
     public Product getProductById(Integer productId);
 

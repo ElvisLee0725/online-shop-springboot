@@ -1,7 +1,7 @@
 package com.elvislee.onlineshop.dao.impl;
 
-import com.elvislee.onlineshop.constant.ProductCategory;
 import com.elvislee.onlineshop.dao.ProductDao;
+import com.elvislee.onlineshop.dto.ProductQueryParams;
 import com.elvislee.onlineshop.dto.ProductRequest;
 import com.elvislee.onlineshop.model.Product;
 import com.elvislee.onlineshop.rowmapper.ProductRowMapper;
@@ -23,21 +23,21 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql = "SELECT product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date "
                     + "FROM product "
                     + "WHERE 1=1"; // A trick to help concatenate the category and search WHERE terms
 
         Map<String, Object> map = new HashMap<>();
 
-        if(category != null) {
+        if(productQueryParams.getCategory() != null) {
             sql += " AND category = :category";
-            map.put("category", category.name());
+            map.put("category", productQueryParams.getCategory().name());
         }
 
-        if(search != null) {
+        if(productQueryParams.getSearch() != null) {
             sql += " AND product_name LIKE :search";    // Don't add '%' here
-            map.put("search", "%" + search + "%");
+            map.put("search", "%" + productQueryParams.getSearch() + "%");
         }
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 

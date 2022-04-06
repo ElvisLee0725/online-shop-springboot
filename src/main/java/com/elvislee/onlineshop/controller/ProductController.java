@@ -1,6 +1,7 @@
 package com.elvislee.onlineshop.controller;
 
 import com.elvislee.onlineshop.constant.ProductCategory;
+import com.elvislee.onlineshop.dto.ProductQueryParams;
 import com.elvislee.onlineshop.dto.ProductRequest;
 import com.elvislee.onlineshop.model.Product;
 import com.elvislee.onlineshop.service.ProductService;
@@ -21,7 +22,12 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProducts(
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search) {
-        List<Product> productList = productService.getProducts(category, search);
+
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
