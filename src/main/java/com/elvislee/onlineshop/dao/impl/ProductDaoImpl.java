@@ -39,6 +39,10 @@ public class ProductDaoImpl implements ProductDao {
             sql += " AND product_name LIKE :search";    // Don't add '%' here
             map.put("search", "%" + productQueryParams.getSearch() + "%");
         }
+
+        // Spring JDBC requires ORDER BY to be added with string concate. Do NOT use variables like above
+        sql += " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
+
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
         return productList;
