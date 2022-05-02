@@ -6,6 +6,7 @@ import com.elvislee.onlineshop.dto.ProductRequest;
 import com.elvislee.onlineshop.model.Product;
 import com.elvislee.onlineshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

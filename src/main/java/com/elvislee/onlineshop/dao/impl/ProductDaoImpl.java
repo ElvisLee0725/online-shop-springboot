@@ -43,6 +43,10 @@ public class ProductDaoImpl implements ProductDao {
         // Spring JDBC requires ORDER BY to be added with string concate. Do NOT use variables like above
         sql += " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
+        sql += " LIMIT :limit OFFSET :offset";
+        map.put("limit", productQueryParams.getLimit());
+        map.put("offset", productQueryParams.getOffset());
+
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
         return productList;
