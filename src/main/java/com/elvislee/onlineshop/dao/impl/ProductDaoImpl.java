@@ -30,15 +30,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
-        if(productQueryParams.getCategory() != null) {
-            sql += " AND category = :category";
-            map.put("category", productQueryParams.getCategory().name());
-        }
-
-        if(productQueryParams.getSearch() != null) {
-            sql += " AND product_name LIKE :search";    // Don't add '%' here
-            map.put("search", "%" + productQueryParams.getSearch() + "%");
-        }
+        sql = addFilteringSql(sql, map, productQueryParams);
 
         // Spring JDBC requires ORDER BY to be added with string concate. Do NOT use variables like above
         sql += " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
@@ -57,15 +49,7 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "SELECT COUNT(*) FROM product WHERE 1=1 ";
         Map<String, Object> map = new HashMap<>();
 
-        if(productQueryParams.getCategory() != null) {
-            sql += " AND category = :category";
-            map.put("category", productQueryParams.getCategory().name());
-        }
-
-        if(productQueryParams.getSearch() != null) {
-            sql += " AND product_name LIKE :search";    // Don't add '%' here
-            map.put("search", "%" + productQueryParams.getSearch() + "%");
-        }
+        sql = addFilteringSql(sql, map, productQueryParams);
 
         // Use .queryForObject() to get the count of records
         Integer total = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
@@ -140,5 +124,19 @@ public class ProductDaoImpl implements ProductDao {
         map.put("productId", productId);
 
         namedParameterJdbcTemplate.update(sql, map);
+    }
+
+    private String addFilteringSql(String sql, Map<String, Object> map, ProductQueryParams productQueryParams) {
+        if(productQueryParams.getCategory() != null) {
+            sql += " AND category = :category";
+            map.put("category", productQueryParams.getCategory().name());
+        }
+
+        if(productQueryParams.getSearch() != null) {
+            sql += " AND product_name LIKE :search";    // Don't add '%' here
+            map.put("search", "%" + productQueryParams.getSearch() + "%");
+        }
+
+        return sql;
     }
 }
