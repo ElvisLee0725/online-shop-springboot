@@ -1,7 +1,6 @@
 package com.elvislee.onlineshop.controller;
 
 import com.elvislee.onlineshop.constant.ProductCategory;
-import com.elvislee.onlineshop.dao.impl.ProductDaoImpl;
 import com.elvislee.onlineshop.dto.ProductQueryParams;
 import com.elvislee.onlineshop.dto.ProductRequest;
 import com.elvislee.onlineshop.model.Product;
