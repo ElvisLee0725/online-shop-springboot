@@ -1,6 +1,7 @@
 package com.elvislee.onlineshop.service.impl;
 
 import com.elvislee.onlineshop.dao.UserDao;
+import com.elvislee.onlineshop.dto.UserLoginRequest;
 import com.elvislee.onlineshop.dto.UserRegisterRequest;
 import com.elvislee.onlineshop.model.User;
 import com.elvislee.onlineshop.service.UserService;
@@ -28,6 +29,23 @@ public class UserServiceImpl implements UserService {
         }
 
         return userDao.createUser(userRegisterRequest);
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+
+        if(user == null) {
+            log.warn("{} is not registered", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if(user.getPassword().equals(userLoginRequest.getPassword())) {
+            return user;
+        }
+
+        log.warn("The password for {} is not correct", userLoginRequest.getEmail());
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
     @Override
