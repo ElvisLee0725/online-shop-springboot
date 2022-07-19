@@ -4,6 +4,7 @@ import com.elvislee.onlineshop.dao.OrderDao;
 import com.elvislee.onlineshop.dao.ProductDao;
 import com.elvislee.onlineshop.dto.BuyItem;
 import com.elvislee.onlineshop.dto.CreateOrderRequest;
+import com.elvislee.onlineshop.model.Order;
 import com.elvislee.onlineshop.model.OrderItem;
 import com.elvislee.onlineshop.model.Product;
 import com.elvislee.onlineshop.service.OrderService;
@@ -47,5 +48,15 @@ public class OrderServiceImpl implements OrderService {
         orderDao.createOrderItems(orderId, orderItemList);
 
         return orderId;
+    }
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+        order.setOrderItemList(orderItemList);
+
+        return order;
     }
 }
