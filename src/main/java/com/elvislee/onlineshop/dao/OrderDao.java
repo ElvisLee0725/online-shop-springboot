@@ -1,5 +1,6 @@
 package com.elvislee.onlineshop.dao;
 
+import com.elvislee.onlineshop.dto.OrderQueryParams;
 import com.elvislee.onlineshop.model.Order;
 import com.elvislee.onlineshop.model.OrderItem;
 
@@ -14,4 +15,8 @@ public interface OrderDao {
     Order getOrderById(Integer orderId);
 
     List<OrderItem> getOrderItemsByOrderId(Integer orderId);
+
+    List<Order> getOrders(OrderQueryParams orderQueryParams);
+
+    Integer countOrder(OrderQueryParams orderQueryParams);
 }
